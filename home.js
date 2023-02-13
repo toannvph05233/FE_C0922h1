@@ -1,9 +1,19 @@
 let isCreate = true;
+
+let imgInp = document.getElementById("img");
+let blah = document.getElementById("blah");
+
+function showImg() {
+    let file = imgInp.files;
+    blah.src = URL.createObjectURL(file[0])
+}
+
 function show() {
     $.ajax({
         type: "GET",
         headers: {
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token")
         },
         url: "http://localhost:8080/blogs",
         //xử lý khi thành công
@@ -39,17 +49,39 @@ function clearEdit() {
     $("#img").val("");
 }
 
-function create() {
+
+
+function upImg() {
+    let fileImg = document.getElementById("img").files;
+    var formData = new FormData();
+    formData.append("fileImg", fileImg[0]);
+
+    $.ajax({
+        contentType: false,
+        processData: false,
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem("token")
+        },
+        type: "POST",
+        data: formData,
+        url: "http://localhost:8080/blogs/upImg",
+        success: function (img) {
+            create(img)
+        }
+    });
+}
+
+function create(img) {
     let blog = {
         "title": document.getElementById("title").value,
         "content": $("#content").val(),
-        "img": $("#img").val(),
+        "img": img,
         "category": {
             "id": $("#idCategoty").val(),
         }
     }
 
-    if (!isCreate){
+    if (!isCreate) {
         blog.id = $("#id").val();
     }
 
@@ -57,7 +89,9 @@ function create() {
         type: "Post",
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token")
+
         },
         url: "http://localhost:8080/blogs",
         data: JSON.stringify(blog),
@@ -77,7 +111,9 @@ function showEdit(id) {
     $.ajax({
         type: "Get",
         headers: {
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token")
+
         },
         url: "http://localhost:8080/blogs/" + id,
         //xử lý khi thành công

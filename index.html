@@ -178,7 +178,9 @@
                     <input placeholder="nhập title" id="id" hidden><br>
                     <input placeholder="nhập title" id="title"><br>
                     <input placeholder="nhập content" id="content"><br>
-                    <input placeholder="nhập img" id="img"><br>
+                    <input type="file" id="img" onchange="showImg()"><br>
+                    <img id="blah" src="#" alt="your image" height="270" width="300" />
+                    <br>
                     <select id="idCategoty">
                         <option value="1">Truyện 18</option>
                         <option value="2">Truyện 20</option>
@@ -187,7 +189,7 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="create()" data-dismiss="modal">Submit</button>
+                    <button type="button" class="btn btn-success" onclick="upImg()" data-dismiss="modal">Submit</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
 
